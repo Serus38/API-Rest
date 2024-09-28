@@ -10,7 +10,7 @@ app.use(cors());
 
 getConection();
 
-app.use(express.json);
+app.use(express.json());
 
 app.use('/director', require('./router/director'));
 app.use('/genero', require('./router/genero'));

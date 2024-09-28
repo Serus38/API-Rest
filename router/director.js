@@ -4,10 +4,9 @@ const { validationResult, check } = require('express-validator');
 
 const router = Router();
 
-router.get('/', async function (req, res) {
-    
-    try {
+router.get('/', async function (req, res, next) {
 
+try {
         const directores = await Director.find();
         res.send(directores);
 
@@ -15,10 +14,11 @@ router.get('/', async function (req, res) {
         console.log(error);
         res.status(500).send('Ocurrió un error')
     }
+    next()
     
   });
 
-    // POST 
+//     POST 
 router.post('/', [
     check('nombre', 'invalid.nombre').not().isEmpty(),
     check('estado', 'invalid.estado').isIn(['Activo', 'Inactivo']),
@@ -49,7 +49,7 @@ router.post('/', [
     
   });
 
- // PUT 
+//  PUT 
  router.put('/:directorId', [
     check('nombre', 'invalid.nombre').not().isEmpty(),
     check('estado', 'invalid.estado').isIn(['Activo', 'Inactivo']),
