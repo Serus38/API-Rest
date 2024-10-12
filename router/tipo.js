@@ -4,24 +4,26 @@ const { validationResult, check } = require('express-validator');
 
 const router = Router();
 
-router.get('/', async function (req, res) {
+router.get('/', async function (req, res, next) {
     
     try {
 
-        const tipos = await Tipo.find();
-        res.send(tipos);
+        const tipo = await Tipo.find();
+        res.send(tipo);
 
     } catch (error) {
         console.log(error);
         res.status(500).send('Ocurrió un error')
     }
+    next()
     
   });
 
     // POST 
 router.post('/', [
     check('nombre', 'invalid.nombre').not().isEmpty(),
-    check('estado', 'invalid.estado').isIn(['Activo', 'Inactivo']),
+    check('descripcion', 'invalid.descripcion').not().isEmpty()
+
 ], async function (req, res) {
 
     try {
@@ -34,13 +36,14 @@ router.post('/', [
 
         let tipo = new Tipo();
         tipo.nombre = req.body.nombre;
+        tipo.descripcion = req.body.descripcion;
         tipo.fechaCreacion = new Date;
         tipo.fechaActualizacion = new Date;
 
         tipo = await tipo.save(); 
         res.send(tipo);
 
-    } catch(error) {tipo
+    } catch(error) {
         console.log(error);
         res.status(500).send('Ocurrió un error al crear tipo')
         
@@ -51,6 +54,10 @@ router.post('/', [
  // PUT 
  router.put('/:tipoId', [
     check('nombre', 'invalid.nombre').not().isEmpty(),
+    check('descripcion', 'invalid.descripcion').not().isEmpty()
+
+
+
 ], async function (req, res) {
 
     try {
@@ -67,6 +74,7 @@ router.post('/', [
 
 
         tipo.nombre = req.body.nombre;
+        tipo.descripcion = req.body.descripcion;
         tipo.fechaActualizacion = new Date;
 
         tipo = await tipo.save(); 

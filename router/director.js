@@ -41,7 +41,7 @@ router.post('/', [
         director = await director.save(); 
         res.send(director);
 
-    } catch(error) {director
+    } catch(error) {Director
         console.log(error);
         res.status(500).send('Ocurrió un error al crear director')
         

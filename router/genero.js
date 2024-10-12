@@ -33,7 +33,7 @@ router.post('/', [
         }
 
 
-        let genero = new Generogenero();
+        let genero = new Genero();
         genero.nombre = req.body.nombre;
         genero.estado = req.body.estado;
         genero.fechaCreacion = new Date;
@@ -42,7 +42,7 @@ router.post('/', [
         genero = await genero.save(); 
         res.send(genero);
 
-    } catch(error) {genero
+    } catch(error) {Genero
         console.log(error);
         res.status(500).send('Ocurrió un error al crear genero')
         

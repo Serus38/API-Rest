@@ -4,7 +4,6 @@ const MediaSchema = Schema({
     serial:{ type: String, require: true, unique: true},
     titulo:{ type: String, require: true},
     descripcion:{type: String, require: true },
-    url:{type: URL, require: true},
     foto: { type: String, required: true },
     estado:{ type: String, require: true, enum: ['Activo', 'Inactivo']},
     fechaCreacion:{type: Date, require: true},
@@ -12,8 +11,8 @@ const MediaSchema = Schema({
     añoEstreno: { type: String, required: true },
     generoPrincipal:{type: Schema.Types.ObjectId, ref:'Genero', required: true},
     directorPrincipal:{type: Schema.Types.ObjectId, ref:'Director', required: true},
-    productora:{type: Schema.Types.ObjectId, ref:'Productora', required: true},
-    tipo:{type: Schema.Types.ObjectId, ref:'Tipo', required: true}
+     productora:{type: Schema.Types.ObjectId, ref:'Productora', required: true},
+     tipo:{type: Schema.Types.ObjectId, ref:'Tipo', required: true}
     
 })
 

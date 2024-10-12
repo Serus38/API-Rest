@@ -4,7 +4,7 @@ const { validationResult, check } = require('express-validator');
 
 const router = Router();
 
-router.get('/', async function (req, res) {
+router.get('/', async function (req, res, next) {
     
     try {
 
@@ -15,6 +15,7 @@ router.get('/', async function (req, res) {
         console.log(error);
         res.status(500).send('Ocurrió un error')
     }
+    next()
     
   });
 
@@ -22,6 +23,8 @@ router.get('/', async function (req, res) {
 router.post('/', [
     check('nombre', 'invalid.nombre').not().isEmpty(),
     check('estado', 'invalid.estado').isIn(['Activo', 'Inactivo']),
+    check('slogan', 'invalid.slogan').not().isEmpty(),
+    check('descripcion', 'invalid.descripcion').not().isEmpty(),
 ], async function (req, res) {
 
     try {
@@ -37,11 +40,13 @@ router.post('/', [
         productora.estado = req.body.estado;
         productora.fechaCreacion = new Date;
         productora.fechaActualizacion = new Date;
+        productora.slogan = req.body.slogan;
+        productora.descripcion = req.body.descripcion;
 
         productora = await productora.save(); 
         res.send(productora);
 
-    } catch(error) {productora
+    } catch(error) {Productora
         console.log(error);
         res.status(500).send('Ocurrió un error al crear productora')
         
@@ -53,6 +58,9 @@ router.post('/', [
  router.put('/:productoraId', [
     check('nombre', 'invalid.nombre').not().isEmpty(),
     check('estado', 'invalid.estado').isIn(['Activo', 'Inactivo']),
+    check('slogan', 'invalid.slogan').not().isEmpty(),
+    check('descripcion', 'invalid.descripcion').not().isEmpty(),
+
 ], async function (req, res) {
 
     try {
@@ -64,20 +72,23 @@ router.post('/', [
 
         let productora = await Productora.findById(req.params.productoraId);
         if (!productora) {
-            return res.status(400).send('productoraproductora no existe');
+            return res.status(400).send('productora no existe');
         }
 
 
         productora.nombre = req.body.nombre;
         productora.estado = req.body.estado;
         productora.fechaActualizacion = new Date;
+        productora.slogan = req.body.slogan;
+        productora.descripcion = req.body.descripcion;
+
 
         productora = await productora.save(); 
         res.send(productora);
 
     } catch(error) {
         console.log(error);
-        res.status(500).send('Ocurrió un error al crear productora')
+        res.status(500).send('Ocurrió un error al actualizar productora')
         
     }
     
